@@ -1,5 +1,6 @@
 require("dotenv").config();
 const express = require("express");
+// const assistant = require("./modules/assistant");
 const helmet = require("helmet");
 const slowdown = require("express-slow-down");
 const ratelimit = require("express-rate-limit");
@@ -35,6 +36,6 @@ app.use(function (_req, res) {
 });
 */
 
-app.listen(PORT, () => {
+app.listen(PORT, async () => {
   console.log(`Server running on http://localhost:${PORT}`);
 });
