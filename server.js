@@ -30,11 +30,10 @@ app.use(
 
 const router = require("./modules/router");
 app.use(router);
-/*
+
 app.use(function (_req, res) {
   res.sendStatus(404);
 });
-*/
 
 app.listen(PORT, async () => {
   console.log(`Server running on http://localhost:${PORT}`);

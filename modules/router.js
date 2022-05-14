@@ -4,6 +4,7 @@ const bcrypt = require("bcrypt");
 const jwt = require("jsonwebtoken");
 const router = express.Router();
 const middleware = require("./middleware");
+const assistant = require("./assistant");
 
 router.post("/login", (req, res) => {
   // Get username and password from request body
@@ -27,12 +28,25 @@ router.post("/login", (req, res) => {
       token: token,
     });
   }
-  // 401
-  return res.status(401).send("Invalid username or password");
+  return res.sendStatus(401);
 });
 
-router.get("/protected", middleware.verifyJWT, (req, res) => {
-  return res.status(200).send("You are authenticated");
+router.get("/lights/on", middleware.verifyJWT, async (req, res) => {
+  try {
+    await assistant.run("Turn on the lights");
+    res.sendStatus(200);
+  } catch (err) {
+    res.sendStatus(500);
+  }
+});
+
+router.get("/lights/off", middleware.verifyJWT, async (req, res) => {
+  try {
+    await assistant.run("Turn off the lights");
+    res.sendStatus(200);
+  } catch (err) {
+    res.sendStatus(500);
+  }
 });
 
 module.exports = router;
