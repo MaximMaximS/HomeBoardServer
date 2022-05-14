@@ -7,6 +7,7 @@ const ratelimit = require("express-rate-limit");
 const PORT = process.env.PORT || 3000;
 
 const app = express();
+
 app.use(helmet());
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
@@ -26,9 +27,13 @@ app.use(
   })
 );
 
-app.get("/", (req, res) => {
-  res.send("Hello World");
+const router = require("./modules/router");
+app.use(router);
+/*
+app.use(function (_req, res) {
+  res.sendStatus(404);
 });
+*/
 
 app.listen(PORT, () => {
   console.log(`Server running on http://localhost:${PORT}`);
