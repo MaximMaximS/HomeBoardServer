@@ -5,6 +5,7 @@ const jwt = require("jsonwebtoken");
 const router = express.Router();
 const middleware = require("./middleware");
 const assistant = require("./assistant");
+const presets = require("./presets");
 
 router.post("/login", (req, res) => {
   // Get username and password from request body
@@ -31,22 +32,27 @@ router.post("/login", (req, res) => {
   return res.sendStatus(401);
 });
 
-router.get("/lights/on", middleware.verifyJWT, async (req, res) => {
-  try {
-    await assistant.run("Turn on the lights");
-    res.sendStatus(200);
-  } catch (err) {
-    res.sendStatus(500);
+router.get("/run", middleware.verifyJWT, async (req, res) => {
+  let { preset, command } = req.query;
+  if (preset && !command) {
+    let getcmd = presets[preset.toLowerCase()];
+    if (getcmd) {
+      command = getcmd;
+      preset = null;
+    } else {
+      return res.status(400).send("Invalid preset");
+    }
   }
-});
-
-router.get("/lights/off", middleware.verifyJWT, async (req, res) => {
-  try {
-    await assistant.run("Turn off the lights");
-    res.sendStatus(200);
-  } catch (err) {
-    res.sendStatus(500);
+  if (!preset && command) {
+    try {
+      await assistant.run(command);
+      res.sendStatus(200);
+    } catch (err) {
+      res.sendStatus(500);
+    }
+    return;
   }
+  return res.status(400).send("Please provide either a preset or a command");
 });
 
 module.exports = router;
