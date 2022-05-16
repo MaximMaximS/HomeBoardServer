@@ -35,6 +35,6 @@ app.use(function (_req, res) {
   res.sendStatus(404);
 });
 
-app.listen(PORT, async () => {
+app.listen(PORT, () => {
   console.log(`Server running on http://localhost:${PORT}`);
 });
