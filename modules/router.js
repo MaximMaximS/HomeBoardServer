@@ -32,8 +32,8 @@ router.post("/login", (req, res) => {
   return res.sendStatus(401);
 });
 
-router.get("/run", middleware.verifyJWT, async (req, res) => {
-  let { preset, command } = req.query;
+router.post("/run", middleware.verifyJWT, async (req, res) => {
+  let { preset, command } = req.body;
   if (preset && !command) {
     let getcmd = presets[preset.toLowerCase()];
     if (getcmd) {
