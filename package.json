@@ -35,7 +35,7 @@
     "express-rate-limit": "^6.4.0",
     "express-slow-down": "^1.4.0",
     "google-assistant": "^0.7.0",
-    "helmet": "^5.0.2",
+    "helmet": "^5.1.0",
     "jsonwebtoken": "^8.5.1"
   }
 }
